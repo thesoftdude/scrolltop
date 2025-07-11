@@ -1,11 +1,11 @@
-# Scroll to top Plugin for Craft CMS 5
+# Scroll to top Plugin for Craft CMS 4/5
 
-A lightweight Craft CMS 5 plugin that adds a customizable scroll-to-top button to your site.
+A lightweight Craft CMS 4/5 plugin that adds a customizable scroll-to-top button to your site.
 
 ## System Requirements
 
-- **Craft CMS**: 5.0.0 or later
-- **PHP**: 8.2 or later
+- **Craft CMS**: 4.0.0 or later
+- **PHP**: 8.0 or later
 - **Browser Support**: All modern browsers (Chrome, Firefox, Safari, Edge)
 
 ## Features

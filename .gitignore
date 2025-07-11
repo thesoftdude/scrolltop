@@ -34,4 +34,7 @@ yarn-error.log*
 DEVELOPER.md 
 
 # Ignore development JS source
-src/assets/src/scrolltop.js
+src/assets/src/
+
+# Hidden release script
+release.sh
