@@ -1,0 +1,309 @@
+{% extends "_layouts/cp" %}
+
+{% import "_includes/forms" as forms %}
+
+{% set title = "Scroll to Top" %}
+
+{% block actionButton %}
+    <button type="button" class="btn submit" onclick="document.getElementById('scrolltop-settings-form').submit()">{{ "Save"|t('app') }}</button>
+{% endblock %}
+
+{% block content %}
+<form method="post" accept-charset="UTF-8" id="scrolltop-settings-form">
+    {{ csrfInput() }}
+    {{ actionInput('plugins/save-plugin-settings') }}
+    {{ hiddenInput('pluginHandle', 'scrolltop') }}
+
+    <div class="field">
+        {{ forms.lightswitchField({
+            label: "Enable Scroll to Top"|t('scrolltop'),
+            instructions: "Turn the scroll-to-top button on or off for your site."|t('scrolltop'),
+            id: 'enabled',
+            name: 'settings[enabled]',
+            on: settings.enabled,
+        }) }}
+    </div>
+
+    <div id="customization-options" {% if not settings.enabled %}style="opacity: 0.5; pointer-events: none;"{% endif %}>
+        <div class="field">
+            {{ forms.selectField({
+                label: "Icon Type"|t('scrolltop'),
+                instructions: "Choose a preset icon or enter your own SVG."|t('scrolltop'),
+                id: 'iconType',
+                name: 'settings[iconType]',
+                value: settings.iconType,
+                options: [
+                    { label: 'Arrow (↑)', value: 'arrow' },
+                    { label: 'Chevron', value: 'chevron' },
+                    { label: 'Double Arrow (⇑)', value: 'doubleArrow' },
+                    { label: 'Triangle (▲)', value: 'triangle' },
+                    { label: 'Caret (⌃)', value: 'caret' },
+                    { label: 'Arrow Up (↑)', value: 'arrowUp' },
+                    { label: 'Chevron Up (⌃)', value: 'chevronUp' },
+                    { label: 'Home (⌂)', value: 'home' },
+                    { label: 'Text (TOP)', value: 'top' },
+                    { label: 'Custom SVG', value: 'custom' },
+                    { label: 'Custom Text', value: 'text' },
+                ],
+            }) }}
+            <div id="icon-preview" style="margin-top:10px; padding:10px; background:#f5f5f5; border-radius:4px;">
+                <strong>Preview:</strong> 
+                <span id="preview-content">
+                    {% if settings.iconType == 'arrow' %}↑
+                    {% elseif settings.iconType == 'chevron' %}<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                    {% elseif settings.iconType == 'doubleArrow' %}⇑
+                    {% elseif settings.iconType == 'triangle' %}▲
+                    {% elseif settings.iconType == 'caret' %}⌃
+                    {% elseif settings.iconType == 'arrowUp' %}↑
+                    {% elseif settings.iconType == 'chevronUp' %}⌃
+                    {% elseif settings.iconType == 'home' %}⌂
+                    {% elseif settings.iconType == 'top' %}TOP
+                    {% elseif settings.iconType == 'custom' and settings.customSvg %}{{ settings.customSvg|raw }}
+                    {% elseif settings.iconType == 'text' %}{{ settings.buttonText }}
+                    {% else %}↑
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="field" id="custom-text-field" {% if settings.iconType != 'text' %}style="display:none;"{% endif %}>
+            {{ forms.textField({
+                label: "Button Text"|t('scrolltop'),
+                instructions: "Enter custom text for the button."|t('scrolltop'),
+                id: 'buttonText',
+                name: 'settings[buttonText]',
+                value: settings.buttonText,
+            }) }}
+        </div>
+
+        <div class="field" id="custom-svg-field" {% if settings.iconType != 'custom' %}style="display:none;"{% endif %}>
+            {{ forms.textareaField({
+                label: "Custom SVG"|t('scrolltop'),
+                instructions: "Paste your SVG code here (e.g., &lt;svg ...&gt;...&lt;/svg&gt;)."|t('scrolltop'),
+                id: 'customSvg',
+                name: 'settings[customSvg]',
+                value: settings.customSvg,
+                rows: 3,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.selectField({
+                label: "Position"|t('scrolltop'),
+                instructions: "Where to position the button on the page."|t('scrolltop'),
+                id: 'position',
+                name: 'settings[position]',
+                value: settings.position,
+                options: [
+                    { label: 'Bottom Right', value: 'bottom-right' },
+                    { label: 'Bottom Left', value: 'bottom-left' },
+                    { label: 'Top Right', value: 'top-right' },
+                    { label: 'Top Left', value: 'top-left' },
+                ],
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Button Size (px)"|t('scrolltop'),
+                instructions: "The size of the button in pixels (20-100)."|t('scrolltop'),
+                id: 'buttonSize',
+                name: 'settings[buttonSize]',
+                value: settings.buttonSize,
+                type: 'number',
+                min: 20,
+                max: 100,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Scroll Threshold (px)"|t('scrolltop'),
+                instructions: "How far to scroll before the button appears (50-1000)."|t('scrolltop'),
+                id: 'scrollThreshold',
+                name: 'settings[scrollThreshold]',
+                value: settings.scrollThreshold,
+                type: 'number',
+                min: 50,
+                max: 1000,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Bottom Distance (px)"|t('scrolltop'),
+                instructions: "Distance from bottom of screen (10-100)."|t('scrolltop'),
+                id: 'bottomDistance',
+                name: 'settings[bottomDistance]',
+                value: settings.bottomDistance,
+                type: 'number',
+                min: 10,
+                max: 100,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Right Distance (px)"|t('scrolltop'),
+                instructions: "Distance from right side of screen (10-100)."|t('scrolltop'),
+                id: 'rightDistance',
+                name: 'settings[rightDistance]',
+                value: settings.rightDistance,
+                type: 'number',
+                min: 10,
+                max: 100,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.colorField({
+                label: "Button Color"|t('scrolltop'),
+                instructions: "The background color of the button."|t('scrolltop'),
+                id: 'buttonColor',
+                name: 'settings[buttonColor]',
+                value: settings.buttonColor,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.colorField({
+                label: "Button Hover Color"|t('scrolltop'),
+                instructions: "The background color when hovering over the button."|t('scrolltop'),
+                id: 'buttonHoverColor',
+                name: 'settings[buttonHoverColor]',
+                value: settings.buttonHoverColor,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.colorField({
+                label: "Text/Icon Color"|t('scrolltop'),
+                instructions: "The color of the text or icon."|t('scrolltop'),
+                id: 'textColor',
+                name: 'settings[textColor]',
+                value: settings.textColor,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.lightswitchField({
+                label: "Enable Animation"|t('scrolltop'),
+                instructions: "Whether to animate the scroll to top."|t('scrolltop'),
+                id: 'enableAnimation',
+                name: 'settings[enableAnimation]',
+                on: settings.enableAnimation,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.selectField({
+                label: "Animation Speed"|t('scrolltop'),
+                instructions: "The speed of the scroll animation."|t('scrolltop'),
+                id: 'animationSpeed',
+                name: 'settings[animationSpeed]',
+                value: settings.animationSpeed,
+                options: [
+                    { label: 'Smooth', value: 'smooth' },
+                    { label: 'Fast', value: 'fast' },
+                    { label: 'Slow', value: 'slow' },
+                ],
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Border Radius"|t('scrolltop'),
+                instructions: "Border radius for the button (e.g., '50%' for circle, '4px' for square)."|t('scrolltop'),
+                id: 'borderRadius',
+                name: 'settings[borderRadius]',
+                value: settings.borderRadius,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Box Shadow"|t('scrolltop'),
+                instructions: "CSS box shadow for the button."|t('scrolltop'),
+                id: 'boxShadow',
+                name: 'settings[boxShadow]',
+                value: settings.boxShadow,
+            }) }}
+        </div>
+
+        <div class="field">
+            {{ forms.textField({
+                label: "Z-Index"|t('scrolltop'),
+                instructions: "Z-index for layering (higher = on top)."|t('scrolltop'),
+                id: 'zIndex',
+                name: 'settings[zIndex]',
+                value: settings.zIndex,
+                type: 'number',
+                min: 1,
+                max: 99999,
+            }) }}
+        </div>
+    </div>
+</form>
+
+<script>
+    // Toggle customization options based on enabled state
+    document.getElementById('enabled').addEventListener('change', function() {
+        var customizationOptions = document.getElementById('customization-options');
+        if (this.checked) {
+            customizationOptions.style.opacity = '1';
+            customizationOptions.style.pointerEvents = 'auto';
+        } else {
+            customizationOptions.style.opacity = '0.5';
+            customizationOptions.style.pointerEvents = 'none';
+        }
+    });
+
+    // Show/hide fields based on icon type
+    document.getElementById('iconType').addEventListener('change', function() {
+        var customSvgField = document.getElementById('custom-svg-field');
+        var customTextField = document.getElementById('custom-text-field');
+        var previewContent = document.getElementById('preview-content');
+        
+        // Hide all custom fields first
+        customSvgField.style.display = 'none';
+        customTextField.style.display = 'none';
+        
+        // Show relevant field and update preview
+        if (this.value === 'custom') {
+            customSvgField.style.display = '';
+            previewContent.innerHTML = '{{ settings.customSvg|raw }}' || 'Paste SVG here';
+        } else if (this.value === 'text') {
+            customTextField.style.display = '';
+            previewContent.innerHTML = '{{ settings.buttonText }}' || 'Custom Text';
+        } else {
+            // Update preview for preset icons
+            var previews = {
+                'arrow': '↑',
+                'chevron': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>',
+                'doubleArrow': '⇑',
+                'triangle': '▲',
+                'caret': '⌃',
+                'arrowUp': '↑',
+                'chevronUp': '⌃',
+                'home': '⌂',
+                'top': 'TOP'
+            };
+            previewContent.innerHTML = previews[this.value] || '↑';
+        }
+    });
+
+    // Update preview when custom text changes
+    document.getElementById('buttonText').addEventListener('input', function() {
+        if (document.getElementById('iconType').value === 'text') {
+            document.getElementById('preview-content').innerHTML = this.value;
+        }
+    });
+
+    // Update preview when custom SVG changes
+    document.getElementById('customSvg').addEventListener('input', function() {
+        if (document.getElementById('iconType').value === 'custom') {
+            document.getElementById('preview-content').innerHTML = this.value;
+        }
+    });
+</script>
+{% endblock %} 

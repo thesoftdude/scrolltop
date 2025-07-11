@@ -1,0 +1,29 @@
+{
+    "name": "softdude/scrolltop",
+    "description": "A Craft CMS 5 plugin that adds a scroll-to-top button to your site.",
+    "type": "craft-plugin",
+    "license": "Proprietary",
+    "authors": [
+        {
+            "name": "softdude",
+            "homepage": "https://github.com/thesoftdude"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "version": "0.1.0",
+    "require": {
+        "craftcms/cms": "^5.0.0",
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "softdude\\scrolltop\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Scrolltop",
+        "handle": "scrolltop",
+        "class": "softdude\\scrolltop\\Scrolltop"
+    }
+} 

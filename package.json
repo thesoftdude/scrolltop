@@ -1,0 +1,25 @@
+{
+  "name": "scrolltop-plugin",
+  "version": "0.1.0",
+  "description": "Build tools for Scrolltop Craft CMS plugin",
+  "scripts": {
+    "build": "npm run build:js && ./build.sh",
+    "build:js": "terser src/assets/src/scrolltop.js -o src/assets/dist/scrolltop.min.js --compress --mangle",
+    "watch": "nodemon --watch src --ext js,css,php,twig --exec 'npm run build'",
+    "clean": "rm -rf build dist",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'"
+  },
+  "devDependencies": {
+    "terser": "^5.24.0",
+    "nodemon": "^3.0.2"
+  },
+  "keywords": [
+    "craft-cms",
+    "plugin",
+    "scroll-to-top",
+    "javascript"
+  ],
+  "author": "softdude",
+  "license": "MIT"
+} 
