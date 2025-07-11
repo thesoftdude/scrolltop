@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "description": "Build tools for Scrolltop Craft CMS plugin",
   "scripts": {
-    "build": "npm run build:js && ./build.sh",
+    "build": "npm run build:js",
     "build:js": "terser src/assets/src/scrolltop.js -o src/assets/dist/scrolltop.min.js --compress --mangle",
+    "package": "npm run build && ./build.sh",
     "watch": "nodemon --watch src --ext js,css,php,twig --exec 'npm run build'",
     "clean": "rm -rf build dist",
     "test": "echo 'No tests specified'",

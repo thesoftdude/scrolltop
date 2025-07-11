@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
     
     steps:
     - uses: actions/checkout@v4
@@ -19,20 +22,8 @@ jobs:
         node-version: '18'
         cache: 'npm'
     
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build plugin
+    - name: Verify build
       run: |
-        npm run build:js
-        ./build.sh
-    
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          dist/*.zip
-          dist/*.tar.gz
-        generate_release_notes: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        npm ci
+        npm run build
+        echo "Build verification complete" 
