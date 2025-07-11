@@ -88,6 +88,7 @@ class Scrolltop extends Plugin
         $nav = parent::getCpNavItem();
         $nav['label'] = 'Scroll to Top';
         $nav['url'] = 'scrolltop';
+        $nav['icon'] = __DIR__ . '/icon.svg';
         return $nav;
     }
 } 
