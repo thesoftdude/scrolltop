@@ -28,7 +28,7 @@
         animationSpeed: 'smooth',
         
         // Icon options
-        iconType: 'arrow',
+        iconType: 'chevron',
         customSvg: '',
     };
 

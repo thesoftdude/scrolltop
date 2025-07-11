@@ -32,7 +32,7 @@ class Settings extends Model
     public string $animationSpeed = 'smooth';
     
     // Icon options
-    public string $iconType = 'arrow';
+    public string $iconType = 'chevron';
     public string $customSvg = '';
 
     public function rules(): array
