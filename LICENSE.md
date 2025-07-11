@@ -1,5 +1,4 @@
 Copyright © softdude
-Version 1.0.0
 
 Permission is hereby granted to any individual or organization to use and contribute to this software for any purpose, including personal and commercial use, provided that:
 
