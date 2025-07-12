@@ -2,7 +2,6 @@
     "name": "softdude/scrolltop",
     "description": "A Craft CMS 5 plugin that adds a scroll-to-top button to your site.",
     "type": "craft-plugin",
-    "license": "proprietary",
     "authors": [
         {
             "name": "softdude",
